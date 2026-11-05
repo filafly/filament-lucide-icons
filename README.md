@@ -8,7 +8,7 @@ A [Lucide](https://lucide.dev) icon set for [Filament Icons](https://github.com/
 
 Works with Filament 4 and 5.
 
-More about this package on FilaFly: [Lucide icons for Filament on FilaFly](https://filafly.com/plugins/lucide-icons).
+More about this package on FilaFly: [Lucide icons for Filament on FilaFly](https://filafly.com/plugins/lucide-icons?utm_source=github&utm_medium=readme&utm_campaign=lucide-icons).
 
 ## Coming from codewithdennis/filament-lucide-icons?
 
