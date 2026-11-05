@@ -18,7 +18,7 @@ That package gives you a Lucide enum to use by hand. This one also swaps every i
 composer remove --no-update codewithdennis/filament-lucide-icons && composer require filafly/filament-lucide-icons
 ```
 
-Then replace `use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;` with `use Filafly\Icons\Lucide\Enums\Lucide as LucideIcon;` and register `LucideIcons::make()` as shown below. Your existing `LucideIcon::Bell` calls keep working. (If the `require` fails, your installed packages are unchanged; restore `composer.json` from git to put the old package back in it.)
+Then replace `use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;` with `use Filafly\Icons\Lucide\Enums\Lucide as LucideIcon;` and register `LucideIcons::make()` as shown below. Your existing `LucideIcon::Bell` calls keep working. If the switch fails partway, restore `composer.json` and `composer.lock` from git and run `composer install` to get back to where you started.
 
 Three cases were renamed upstream in Lucide and only exist under their new names here:
 
