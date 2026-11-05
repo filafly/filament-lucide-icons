@@ -15,7 +15,7 @@ More about this package on FilaFly: [Lucide icons for Filament on FilaFly](https
 That package gives you a Lucide enum to use by hand. This one also swaps every icon in Filament's own UI. The two can't be installed side by side (both register Blade's `lucide` prefix), but the enums use the same case names (all but three, listed below), so switching takes two steps:
 
 ```bash
-composer remove codewithdennis/filament-lucide-icons && composer require filafly/filament-lucide-icons
+composer remove --no-update codewithdennis/filament-lucide-icons && composer require filafly/filament-lucide-icons
 ```
 
 Then replace `use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;` with `use Filafly\Icons\Lucide\Enums\Lucide as LucideIcon;` and register `LucideIcons::make()` as shown below. Your existing `LucideIcon::Bell` calls keep working.
@@ -82,6 +82,8 @@ LucideIcons::make()
         TablesIconAlias::ACTIONS_FILTER => Lucide::ListFilter,
     ]);
 ```
+
+Query builder icons: on Filament 4.1 and later, override the `query-builder::constraints.*` aliases (the `QueryBuilderIconAlias` constants). The Filament 4.0 `tables::filters.query-builder.constraints.*` keys only apply on 4.0.
 
 ### Override individual icons
 
