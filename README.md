@@ -18,7 +18,7 @@ That package gives you a Lucide enum to use by hand. This one also swaps every i
 composer remove --no-update codewithdennis/filament-lucide-icons && composer require filafly/filament-lucide-icons
 ```
 
-Then replace `use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;` with `use Filafly\Icons\Lucide\Enums\Lucide as LucideIcon;` and register `LucideIcons::make()` as shown below. Your existing `LucideIcon::Bell` calls keep working.
+Then replace `use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;` with `use Filafly\Icons\Lucide\Enums\Lucide as LucideIcon;` and register `LucideIcons::make()` as shown below. Your existing `LucideIcon::Bell` calls keep working. (If the `require` fails, your installed packages are unchanged; restore `composer.json` from git to put the old package back in it.)
 
 Three cases were renamed upstream in Lucide and only exist under their new names here:
 
@@ -83,7 +83,7 @@ LucideIcons::make()
     ]);
 ```
 
-Query builder icons: on Filament 4.1 and later, override the `query-builder::constraints.*` aliases (the `QueryBuilderIconAlias` constants). The Filament 4.0 `tables::filters.query-builder.constraints.*` keys only apply on 4.0.
+Query builder icons: on Filament 4.2 and later, override the `query-builder::constraints.*` aliases (the `QueryBuilderIconAlias` constants). On Filament 4.0 and 4.1, use the `tables::filters.query-builder.constraints.*` keys instead.
 
 ### Override individual icons
 
