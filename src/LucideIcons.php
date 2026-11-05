@@ -4,6 +4,7 @@ namespace Filafly\Icons\Lucide;
 
 use Filafly\Icons\IconSet;
 use Filafly\Icons\Lucide\Enums\Lucide;
+use Filament\Support\Icons\IconManager;
 
 class LucideIcons extends IconSet
 {
@@ -12,6 +13,25 @@ class LucideIcons extends IconSet
     protected mixed $iconEnum = Lucide::class;
 
     protected string $iconPrefix = 'lucide';
+
+    public function __construct()
+    {
+        // Filament 4.1+ renames the 4.0 tables:: query builder keys to query-builder::
+        // when they're registered. Registering both would let the legacy key overwrite
+        // an overrideAlias() on the current one, so keep a legacy key only where
+        // Filament still treats it as its own alias.
+        if (! method_exists(IconManager::class, 'normalizeAlias')) {
+            return;
+        }
+
+        foreach (array_keys($this->iconMap) as $alias) {
+            $normalized = IconManager::normalizeAlias($alias);
+
+            if ($normalized !== $alias && array_key_exists($normalized, $this->iconMap)) {
+                unset($this->iconMap[$alias]);
+            }
+        }
+    }
 
     /**
      * Every Filament 4 and 5 icon alias, mapped to a Lucide icon.

@@ -130,6 +130,16 @@ class LucideIconsTest extends TestCase
         $this->assertSame('lucide-text-search', FilamentIcon::resolve('tables::search-field'));
     }
 
+    public function test_legacy_query_builder_keys_do_not_overwrite_an_override(): void
+    {
+        LucideIcons::make()
+            ->overrideAlias('query-builder::constraints.text', Lucide::Star)
+            ->registerIcons();
+
+        $this->assertSame('lucide-star', FilamentIcon::resolve('query-builder::constraints.text'));
+        $this->assertSame('lucide-hash', FilamentIcon::resolve('query-builder::constraints.number'));
+    }
+
     #[DataProvider('styleCalls')]
     public function test_lucide_has_a_single_style(callable $call): void
     {
