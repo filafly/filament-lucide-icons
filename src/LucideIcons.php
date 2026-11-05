@@ -16,6 +16,10 @@ class LucideIcons extends IconSet
 
     public function __construct()
     {
+        if (method_exists(parent::class, '__construct')) {
+            parent::__construct();
+        }
+
         // Filament 4.2+ renames the 4.0 and 4.1 tables:: query builder keys to query-builder::
         // when they're registered. Registering both would let the legacy key overwrite
         // an overrideAlias() on the current one, so keep a legacy key only where

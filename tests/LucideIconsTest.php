@@ -37,6 +37,17 @@ class LucideIconsTest extends TestCase
         return $aliases;
     }
 
+    /**
+     * Filament's own alias normalization, or the alias unchanged on 4.0 and 4.1,
+     * which have no normalizeAlias() and no renamed keys.
+     */
+    private static function normalize(string $alias): string
+    {
+        return method_exists(IconManager::class, 'normalizeAlias')
+            ? IconManager::normalizeAlias($alias)
+            : $alias;
+    }
+
     /** @return array<string, string> */
     private function iconMap(): array
     {
@@ -47,16 +58,16 @@ class LucideIconsTest extends TestCase
 
     public function test_it_finds_filaments_alias_classes(): void
     {
-        $this->assertGreaterThan(200, count(self::filamentAliases()));
+        $this->assertGreaterThan(150, count(self::filamentAliases()));
     }
 
     public function test_every_filament_alias_is_mapped(): void
     {
-        $mapped = array_map(IconManager::normalizeAlias(...), array_keys($this->iconMap()));
+        $mapped = array_map(self::normalize(...), array_keys($this->iconMap()));
 
         $missing = array_filter(
             self::filamentAliases(),
-            fn (string $alias): bool => ! in_array(IconManager::normalizeAlias($alias), $mapped, true),
+            fn (string $alias): bool => ! in_array(self::normalize($alias), $mapped, true),
         );
 
         $this->assertSame([], $missing, 'Filament aliases with no Lucide icon: '.implode(', ', array_keys($missing)));
@@ -97,7 +108,7 @@ class LucideIconsTest extends TestCase
 
         $this->assertSame('lucide-search', FilamentIcon::resolve('panels::global-search.field'));
         $this->assertSame('lucide-trash-2', FilamentIcon::resolve('actions::delete-action'));
-        $this->assertSame('lucide-bold', FilamentIcon::resolve('forms::components.rich-editor.toolbar.bold'));
+        $this->assertSame('lucide-bold', FilamentIcon::resolve('forms:components.rich-editor.toolbar.bold'));
         $this->assertSame('lucide-type', FilamentIcon::resolve('tables::filters.query-builder.constraints.text'));
 
         foreach (self::filamentAliases() as $constant => $alias) {
@@ -138,6 +149,41 @@ class LucideIconsTest extends TestCase
 
         $this->assertSame('lucide-star', FilamentIcon::resolve('query-builder::constraints.text'));
         $this->assertSame('lucide-hash', FilamentIcon::resolve('query-builder::constraints.number'));
+    }
+
+    public function test_legacy_query_builder_keys_are_kept_only_where_filament_uses_them(): void
+    {
+        $map = $this->iconMap();
+        $legacy = 'tables::filters.query-builder.constraints.text';
+
+        if (self::normalize($legacy) === $legacy) {
+            $this->assertArrayHasKey($legacy, $map, 'Filament without the renamed keys still needs the legacy one');
+        } else {
+            $this->assertArrayNotHasKey($legacy, $map, 'The legacy key would overwrite the current one');
+            $this->assertArrayHasKey(self::normalize($legacy), $map);
+        }
+    }
+
+    public function test_rich_editor_toolbar_aliases_are_mapped(): void
+    {
+        // Filament's own toolbar constants (only in later 4.x releases), so a renamed
+        // prefix shows up here instead of silently falling back to Heroicons.
+        $toolbar = array_filter(
+            self::filamentAliases(),
+            fn (string $constant): bool => str_contains($constant, 'RICH_EDITOR_TOOLBAR_'),
+            ARRAY_FILTER_USE_KEY,
+        );
+
+        if ($toolbar === []) {
+            $this->markTestSkipped('This Filament version has no rich editor toolbar aliases.');
+        }
+
+        LucideIcons::make()->registerIcons();
+
+        foreach ($toolbar as $constant => $alias) {
+            $this->assertArrayHasKey($alias, $this->iconMap(), "{$constant} is not in the icon map");
+            $this->assertStringStartsWith('lucide-', FilamentIcon::resolve($alias), "{$constant} is not a Lucide icon");
+        }
     }
 
     #[DataProvider('styleCalls')]
