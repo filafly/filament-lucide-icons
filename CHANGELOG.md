@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.2 - 2026-11-06
+
+- Docs only: the README no longer compares this package with other Lucide packages. It now says plainly that the package registers Blade's `lucide` icon prefix, so any other package registering that prefix has to be removed first.
+- No code changes.
+
 ## v1.0.1 - 2026-11-05
 
 - No change to which icons you get.

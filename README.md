@@ -10,24 +10,6 @@ Works with Filament 4 and 5.
 
 More about this package on FilaFly: [Lucide icons for Filament on FilaFly](https://filafly.com/plugins/lucide-icons?utm_source=github&utm_medium=readme&utm_campaign=lucide-icons).
 
-## Coming from codewithdennis/filament-lucide-icons?
-
-That package gives you a Lucide enum to use by hand. This one also swaps every icon in Filament's own UI. The two can't be installed side by side (both register Blade's `lucide` prefix), but the enums use the same case names (all but three, listed below), so switching takes two steps:
-
-```bash
-composer remove --no-update codewithdennis/filament-lucide-icons && composer require filafly/filament-lucide-icons
-```
-
-Then replace `use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;` with `use Filafly\Icons\Lucide\Enums\Lucide as LucideIcon;` and register `LucideIcons::make()` as shown below. Your existing `LucideIcon::Bell` calls keep working. If the switch fails partway, restore `composer.json` and `composer.lock` from git and run `composer install` to get back to where you started.
-
-Three cases were renamed upstream in Lucide and only exist under their new names here:
-
-| codewithdennis | filafly |
-| --- | --- |
-| `BetweenHorizonalEnd` | `BetweenHorizontalEnd` |
-| `BetweenHorizonalStart` | `BetweenHorizontalStart` |
-| `LocationEdit` | `MapPinPen` |
-
 ## Installation
 
 You can install the package via composer:
@@ -35,6 +17,8 @@ You can install the package via composer:
 ```bash
 composer require filafly/filament-lucide-icons
 ```
+
+This registers Blade's `lucide` icon prefix, so remove any other package that registers the same prefix first.
 
 After the package is installed, you must register the plugin in your Filament Panel provider:
 
