@@ -18,6 +18,8 @@ You can install the package via composer:
 composer require filafly/filament-lucide-icons
 ```
 
+Not sure which Laravel and PHP versions your Filament version needs? See the [Filament version compatibility guide](https://filafly.com/guides/filament-version-compatibility).
+
 This registers Blade's `lucide` icon prefix, so remove any other package that registers the same prefix first.
 
 After the package is installed, you must register the plugin in your Filament Panel provider:
